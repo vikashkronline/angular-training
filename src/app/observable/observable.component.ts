@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MyObservable } from '../Observable/observable';
+import { MyObservable } from '../observable/observable';
 
 @Component({
   selector: 'app-observable',

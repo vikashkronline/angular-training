@@ -3,11 +3,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ObservableComponent } from './Observable/observable.component';
+import { ObservableComponent } from './observable/observable.component';
+import { RxjsPracticeComponent } from './rxjs-practice/rxjs-practice.component';
 
 @NgModule({
   imports: [CommonModule, BrowserModule, AppRoutingModule],
-  declarations: [AppComponent, ObservableComponent],
+  declarations: [AppComponent, ObservableComponent, RxjsPracticeComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
