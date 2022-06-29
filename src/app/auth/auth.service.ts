@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,19 +8,22 @@ import { Observable, of } from 'rxjs';
 export class AuthService {
   constructor(private readonly router: Router) {}
 
-  private loggedIn = false;
+  private loggedIn = new BehaviorSubject(false);
 
-  isAuthenticated(): boolean {
-    return this.loggedIn;
+  isAuthenticated(async = false): Observable<boolean> | boolean {
+    if (!async) {
+      return this.loggedIn.value;
+    }
+    return this.loggedIn.asObservable();
   }
 
   login(): Observable<boolean> {
-    this.loggedIn = true;
-    return of(this.loggedIn);
+    this.loggedIn.next(true);
+    return this.loggedIn.asObservable();
   }
 
-  loOut(): void {
-    this.loggedIn = false;
+  logout(): void {
+    this.loggedIn.next(false);
     this.router.navigate(['login']);
   }
 }
