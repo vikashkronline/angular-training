@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomObservable } from '../Observable/observable';
+import { MyObservable } from '../Observable/observable';
 
 @Component({
   selector: 'app-observable',
@@ -7,22 +7,33 @@ import { CustomObservable } from '../Observable/observable';
   styleUrls: ['./observable.component.css'],
 })
 export class ObservableComponent implements OnInit {
-  myObservable = new CustomObservable();
-
+  myObservable = new MyObservable();
   data: any[] = [];
+
+  subscription;
 
   constructor() {}
 
   ngOnInit() {
-    this.myObservable.subscribe((data) => {
+    this.subscribe();
+  }
+
+  subscribe(): void {
+    this.subscription = this.myObservable.subscribe((data) => {
       this.data.push(data);
     });
+  }
+
+  unsubscribe(): void {
+    this.subscription.unsubscribe();
+    this.subscription = null;
   }
 
   add(input: HTMLInputElement): void {
     if (input.value) {
       this.myObservable.next(input.value);
       input.value = '';
+      input.focus();
     }
   }
 }
