@@ -3,20 +3,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthModule } from './auth/auth.module';
-import { HomeModule } from './home/home.module';
-import { ProductsModule } from './products/products.module';
+import { ObservableComponent } from './Observable/observable.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    BrowserModule,
-    AuthModule,
-    HomeModule,
-    ProductsModule,
-    AppRoutingModule,
-  ],
-  declarations: [AppComponent],
+  imports: [CommonModule, BrowserModule, AppRoutingModule],
+  declarations: [AppComponent, ObservableComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

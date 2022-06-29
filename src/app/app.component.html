@@ -1,10 +1,4 @@
-<a routerLink="home" routerLinkActive="active">Home</a> |
-<a routerLink="products" routerLinkActive="active">Products</a> |
-<a href="#" (click)="logout(); (false)" *ngIf="loggedIn | async; else loginTemp"
-  >Logout</a
->
-<ng-template #loginTemp>
-  <a routerLink="login" routerLinkActive="active">Login</a>
-</ng-template>
+<a routerLink="observable" routerLinkActive="active">Observable</a>
+
 <hr />
 <router-outlet></router-outlet>
