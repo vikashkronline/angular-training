@@ -33,7 +33,7 @@ export class ObservableComponent implements OnInit {
     if (input.value) {
       this.myObservable.next(input.value);
       input.value = '';
-      input.focus();
     }
+    input.focus();
   }
 }
