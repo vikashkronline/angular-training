@@ -1,0 +1,9 @@
+<div>RxJs Operators:</div>
+<input type="text" #input />
+<button (click)="add(input)">Add</button>
+<hr />
+
+Data recieved from the subject:
+<ol>
+  <li *ngFor="let item of data">{{ item }}</li>
+</ol>

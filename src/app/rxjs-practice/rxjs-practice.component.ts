@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rxjs-practice',
@@ -7,7 +8,10 @@ import { Subject } from 'rxjs';
   styleUrls: ['./rxjs-practice.component.css'],
 })
 export class RxjsPracticeComponent implements OnInit {
-  mySubject = new Subject();
+  subject = new Subject();
+  behaviorSubject = new BehaviorSubject('');
+  replaySubject = new ReplaySubject(10);
+  dataSource = this.subject;
   data: any[] = [];
 
   subscription;
@@ -19,9 +23,19 @@ export class RxjsPracticeComponent implements OnInit {
   }
 
   subscribe(): void {
-    this.subscription = this.mySubject.subscribe((data) => {
-      this.data.push(data);
-    });
+    this.subscription = this.dataSource
+      /* .pipe(
+        filter((n): n is string => {
+          const num = Number(n);
+          if (!isNaN(num)) {
+            return num % 2 === 0;
+          }
+          return true;
+        })
+      ) */
+      .subscribe((data) => {
+        this.data.push(data);
+      });
   }
 
   unsubscribe(): void {
@@ -31,9 +45,21 @@ export class RxjsPracticeComponent implements OnInit {
 
   add(input: HTMLInputElement): void {
     if (input.value) {
-      this.mySubject.next(input.value);
+      this.dataSource.next(input.value);
       input.value = '';
     }
     input.focus();
+  }
+
+  changeSource(select: HTMLSelectElement): void {
+    if (select.value === 's') {
+      this.dataSource = this.subject;
+    } else if (select.value === 'b') {
+      this.dataSource = this.behaviorSubject;
+    } else {
+      this.dataSource = this.replaySubject;
+    }
+    this.unsubscribe();
+    this.subscribe();
   }
 }
