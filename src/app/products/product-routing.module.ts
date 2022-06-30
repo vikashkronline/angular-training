@@ -8,7 +8,7 @@ const routes: Routes = [
     path: 'products',
     component: ProductListComponent,
     pathMatch: 'full',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
   },
 ];
 
