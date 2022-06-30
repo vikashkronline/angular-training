@@ -23,19 +23,9 @@ export class RxjsPracticeComponent implements OnInit {
   }
 
   subscribe(): void {
-    this.subscription = this.dataSource
-      /* .pipe(
-        filter((n): n is string => {
-          const num = Number(n);
-          if (!isNaN(num)) {
-            return num % 2 === 0;
-          }
-          return true;
-        })
-      ) */
-      .subscribe((data) => {
-        this.data.push(data);
-      });
+    this.subscription = this.dataSource.subscribe((data) => {
+      this.data.push(data);
+    });
   }
 
   unsubscribe(): void {

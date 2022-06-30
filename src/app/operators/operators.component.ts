@@ -1,13 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { Subject } from 'rxjs';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { fromEvent, Subject } from 'rxjs';
+import {
+  filter,
+  map,
+  debounceTime,
+  distinctUntilChanged,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-operators',
   templateUrl: './operators.component.html',
   styleUrls: ['./operators.component.css'],
 })
-export class OperatorsComponent implements OnInit {
-  subject = new Subject();
+export class OperatorsComponent implements OnInit, AfterViewInit {
+  @ViewChild('input') input: ElementRef;
+  dataSource = new Subject();
+  // dataSource = of(1, 2, 3, 4, 5, 6);
+
   data: any[] = [];
 
   subscription;
@@ -15,26 +30,38 @@ export class OperatorsComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.subscription = this.subject
-      /* .pipe(
-        filter((n): n is string => {
+    this.subscription = this.dataSource
+      .pipe(
+        filter((n): n is number => {
           const num = Number(n);
           if (!isNaN(num)) {
             return num % 2 === 0;
           }
           return true;
         })
-      ) */
+      )
       .subscribe((data) => {
         this.data.push(data);
       });
   }
 
-  add(input: HTMLInputElement): void {
-    if (input.value) {
-      this.subject.next(input.value);
-      input.value = '';
-    }
+  ngAfterViewInit(): void {
+    fromEvent(this.input.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(300),
+        map((evt: InputEvent) => evt.target['value']),
+        distinctUntilChanged()
+      )
+      .subscribe((val) => {
+        if (val) {
+          this.dataSource.next(val);
+        }
+      });
+  }
+
+  clear(input: HTMLInputElement): void {
+    this.data = [];
+    input.value = '';
     input.focus();
   }
 }
